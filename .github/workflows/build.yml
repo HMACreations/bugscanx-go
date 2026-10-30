@@ -1,0 +1,41 @@
+name: Build & Publish Multi-Platform Binaries
+
+on:
+  push:
+    branches: [ main, master ]
+    paths-ignore:
+      - 'dist/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Run Unit Tests
+        run: go test -v ./...
+
+      - name: Cross-Compile Android ARM64, Linux AMD64, Windows AMD64
+        run: |
+          mkdir -p dist
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o dist/bugscanx-android-arm64 .
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o dist/bugscanx-linux-amd64 .
+          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o dist/bugscanx-windows-amd64.exe .
+          chmod +x dist/bugscanx-android-arm64 dist/bugscanx-linux-amd64
+
+      - name: Commit Pre-built Binaries to dist/ on main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f dist/bugscanx-android-arm64 dist/bugscanx-linux-amd64 dist/bugscanx-windows-amd64.exe
+          git diff --staged --quiet || (git commit -m "chore: build multi-platform binaries [skip ci]" && git push)

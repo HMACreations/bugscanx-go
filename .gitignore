@@ -1,0 +1,7 @@
+# Ignore scan output files
+results*.txt
+*hits*.txt
+*_subdomains.txt
+*_domains.txt
+open_ports.txt
+*.log
