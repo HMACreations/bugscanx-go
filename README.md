@@ -25,17 +25,32 @@ High-performance, **Zero-False-Negative** Go rewrite of **BugScanX** for discove
 
 ## 📱 Install & Run in Termius / Termux (Android & Linux VPS)
 
-### Option 1: One-Line Direct Binary Install (No Go or Git Needed!)
+### Option 1: One-Line Global Command Installer (`scan`, `bugscanxgo`, `bx`)
 Run this single command inside **Termius** (on your Android phone or Linux VPS):
 ```bash
-# On Android (ARM64 / Termux / Termius Local Shell):
-curl -L https://raw.githubusercontent.com/HMACreations/bugscanx-go/main/dist/bugscanx-android-arm64 -o bx && chmod +x bx && ./bx
-
-# On Linux VPS (x86_64 Ubuntu/Debian):
-curl -L https://raw.githubusercontent.com/HMACreations/bugscanx-go/main/dist/bugscanx-linux-amd64 -o bx && chmod +x bx && ./bx
+curl -sL https://raw.githubusercontent.com/HMACreations/bugscanx-go/main/install.sh | bash && source ~/.bashrc 2>/dev/null || true
+```
+Once installed, open any terminal and simply type:
+```bash
+scan
+# or
+bugscanxgo
+# or
+bugscanx-go
+# or
+bx
 ```
 
-### Option 2: Clone Repository & Run Installer
+### Option 2: Direct Single-Binary Run
+```bash
+# On Android (ARM64 / Termux / Termius Local Shell):
+curl -L https://raw.githubusercontent.com/HMACreations/bugscanx-go/main/dist/bugscanx-android-arm64 -o scan && chmod +x scan && ./scan
+
+# On Linux VPS (x86_64 Ubuntu/Debian):
+curl -L https://raw.githubusercontent.com/HMACreations/bugscanx-go/main/dist/bugscanx-linux-amd64 -o scan && chmod +x scan && ./scan
+```
+
+### Option 3: Clone Repository & Run Installer
 ```bash
 git clone https://github.com/HMACreations/bugscanx-go.git && cd bugscanx-go && bash install.sh
 ```
